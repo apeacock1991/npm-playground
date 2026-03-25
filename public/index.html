@@ -3,10 +3,125 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Hello, World!</title>
+		<title>npm playground</title>
+		<meta
+			name="description"
+			content="Try npm packages inside a Cloudflare Dynamic Worker with sample code and a lightweight browser UI."
+		/>
+		<link rel="stylesheet" href="/styles.css" />
 	</head>
 	<body>
-		<h1 id="heading">Hello, World!</h1>
-		<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
+		<div class="page-shell">
+			<header class="hero">
+				<div class="hero-copy">
+					<p class="eyebrow">Cloudflare Dynamic Workers</p>
+					<h1>npm playground</h1>
+					<p class="hero-text">
+						Try real npm packages in a secure, network-isolated Dynamic Worker. Start with one of
+						five built-in examples or choose any package and write your own code.
+					</p>
+				</div>
+				<div class="hero-note">
+					<p class="hero-note-title">How it works</p>
+					<p>
+						The UI is served as static assets, while <code>/api/run</code> bundles the chosen
+						package at runtime and executes your module code in an isolated sandbox.
+					</p>
+				</div>
+			</header>
+
+			<main class="layout">
+				<section class="panel samples-panel">
+					<div class="panel-heading">
+						<h2>Starter ideas</h2>
+						<button id="blank-slate-button" class="secondary-button" type="button">Blank slate</button>
+					</div>
+					<p class="panel-copy">
+						Each sample fills the package field and editor with runnable starter code.
+					</p>
+					<div id="samples-grid" class="samples-grid" aria-live="polite"></div>
+				</section>
+
+				<section class="panel editor-panel">
+					<div class="panel-heading">
+						<div>
+							<h2>Editor</h2>
+							<p id="selected-sample-description" class="subtle-text">
+								Write normal module code with imports at the top.
+							</p>
+						</div>
+						<button id="run-button" class="primary-button" type="button">Run code</button>
+					</div>
+
+					<form id="playground-form" class="playground-form">
+						<div class="field-row">
+							<label class="field">
+								<span>npm package</span>
+								<input
+									id="package-name"
+									name="packageName"
+									type="text"
+									placeholder="lodash-es"
+									autocomplete="off"
+									required
+								/>
+							</label>
+							<label class="field version-field">
+								<span>Version</span>
+								<input
+									id="package-version"
+									name="packageVersion"
+									type="text"
+									value="latest"
+									placeholder="latest"
+									autocomplete="off"
+								/>
+							</label>
+						</div>
+
+						<label class="field">
+							<span>Code</span>
+							<textarea
+								id="code-editor"
+								name="code"
+								spellcheck="false"
+								aria-label="Code editor"
+							></textarea>
+						</label>
+					</form>
+
+					<div class="editor-hint">
+						<span>Recommended shape:</span>
+						<code>import { z } from "zod"; return z.object(...).parse(...);</code>
+					</div>
+				</section>
+
+				<section class="panel output-panel">
+					<div class="panel-heading">
+						<div>
+							<h2>Execution</h2>
+							<p id="run-status" class="subtle-text">Ready to run.</p>
+						</div>
+					</div>
+
+					<div class="result-grid">
+						<div class="result-card">
+							<h3>Result</h3>
+							<pre id="result-output">Run a package example to see output here.</pre>
+						</div>
+						<div class="result-card">
+							<h3>Console</h3>
+							<pre id="log-output">No logs yet.</pre>
+						</div>
+						<div class="result-card warnings-card">
+							<h3>Bundle warnings</h3>
+							<pre id="warnings-output">No warnings.</pre>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<script src="/app.js" type="module"></script>
 	</body>
 </html>
